@@ -16,7 +16,7 @@ bright_red = (255,0,0)
 bright_green = (0,255,0)
 
 car_width = 51
-car_height = 105
+car_height = 105000
 
 gameDisplay = pygame.display.set_mode((display_width,display_height))
 pygame.display.set_caption('A bit Racey')
