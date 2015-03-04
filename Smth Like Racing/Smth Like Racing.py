@@ -17,14 +17,14 @@ green = (0,200,0)
 bright_red = (255,0,0)
 bright_green = (0,255,0)
 
-car_width = 51
-car_height = 105
+car_width = 56
+car_height = 111
 
 gameDisplay = pygame.display.set_mode((display_width,display_height))
-pygame.display.set_caption('A bit Racey')
+pygame.display.set_caption('Smth Like Racing')
 clock = pygame.time.Clock()
 
-roadImg = pygame.image.load('road_600x1000.jpg')
+roadImg = pygame.image.load('road.png')
 wallImg = pygame.image.load('wall.png')
 carImg = pygame.image.load('car.png')
 gameIcon = pygame.image.load('caricon.png')
@@ -137,7 +137,7 @@ def game_intro():
 
 def game_loop():
     global pause
-    #pygame.mixer.music.play(-1)
+    pygame.mixer.music.play(-1)
     x = (display_width * 0.45)
     y = (display_height * 0.75)
 
@@ -145,16 +145,18 @@ def game_loop():
 
     dodged = 0
 
-    speed = 5
+    speed_y = 5
+    speed_x = 5
 
-    wall_starty = -500
+    border = 15
+
+    wall_starty = -200
     wall_width = 110
-    wall_height = 75
-    wall_startx = random.randrange(15,475)
+    wall_height = 83
+    wall_startx = random.randrange(border,display_width-wall_width-border)
 
-    road_starty = -500
-    road_width = 500
-    road_height = 600
+    road_starty = -125
+    road_height = 125
     
     #wall_count + 1     как это сделать?
 
@@ -169,9 +171,9 @@ def game_loop():
 
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_LEFT:
-                    x_change = -5
+                    x_change = - speed_x
                 if event.key == pygame.K_RIGHT:
-                    x_change = 5
+                    x_change = speed_x
                 if event.key == pygame.K_p:
                     pause = True
                     paused()
@@ -185,10 +187,18 @@ def game_loop():
         x += x_change
 
         road(0,road_starty)
-        road_starty += speed
-        
-##        wall(wall_startx,wall_starty)
-##        wall_starty += speed
+        road_starty += speed_y
+
+        shift = 0
+        while road_starty + shift < display_height:
+            road(0, road_starty + shift)
+            shift += road_height
+
+        if road_starty > 0:
+            road_starty -= road_height
+       
+        wall(wall_startx,wall_starty)
+        wall_starty += speed_y
         
         car(x,y)
         
@@ -197,12 +207,9 @@ def game_loop():
         if x > display_width - car_width or x == 0:
             crash()
 
-        if road_starty > 0:
-            road_starty = -500
-
         if wall_starty > display_height:
             wall_starty = 0 - wall_height
-            wall_startx = random.randrange(15,475)
+            wall_startx = random.randrange(border,display_width-wall_width-border)
             dodged += 1
             #wall_speed += 1
             
