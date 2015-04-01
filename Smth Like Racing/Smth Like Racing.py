@@ -24,8 +24,16 @@ gameDisplay = pygame.display.set_mode((display_width,display_height))
 pygame.display.set_caption('Smth Like Racing')
 clock = pygame.time.Clock()
 
+################################################
+
+images = [
+pygame.image.load('busBlue.png'),
+pygame.image.load('busRed.png')]
+
+################################################
+
 roadImg = pygame.image.load('road.png')
-wallImg = pygame.image.load('wall.png')
+#wallImg = pygame.image.load('wall.png')
 carImg = pygame.image.load('car.png')
 gameIcon = pygame.image.load('caricon.png')
 pygame.display.set_icon(gameIcon)
@@ -37,8 +45,15 @@ def walls_dodged(count):
     text = font.render("Dodged: " + str(count), True, black)
     gameDisplay.blit(text, (15,0))
 
-def wall(xw,yw):
-    gameDisplay.blit(wallImg,(xw,yw))
+##def wall(xw,yw):
+##    gameDisplay.blit(wallImg,(xw,yw))
+
+###########
+
+def wall(xb,yb):
+    gameDisplay.blit(random.choice(images),(xb,yb))
+
+###########
 
 def road(xr,yr):
     gameDisplay.blit(roadImg,(xr,yr))
@@ -52,7 +67,7 @@ def text_objects(text,font):
 
 def crash():
     pygame.mixer.music.stop()
-    pygame.mixer.Sound.play(crash_sound)
+    #pygame.mixer.Sound.play(crash_sound)
     largeText = pygame.font.Font('freesansbold.ttf',80)
     TextSurf, TextRect = text_objects('You Crashed', largeText)
     TextRect.center = ((display_width/2),(display_height/2))
@@ -137,7 +152,7 @@ def game_intro():
 
 def game_loop():
     global pause
-    pygame.mixer.music.play(-1)
+    #pygame.mixer.music.play(-1)
     x = (display_width * 0.45)
     y = (display_height * 0.75)
 
@@ -148,11 +163,17 @@ def game_loop():
     speed_y = 5
     speed_x = 5
 
-    border = 15
+    border = 9
 
-    wall_starty = -200
-    wall_width = 110
-    wall_height = 83
+##    wall_starty = -200
+##    wall_width = 110
+##    wall_height = 83
+##    wall_startx = random.randrange(border,display_width-wall_width-border)
+
+
+    wall_starty = -400
+    wall_width = 75
+    wall_height = 230
     wall_startx = random.randrange(border,display_width-wall_width-border)
 
     road_starty = -125
